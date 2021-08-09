@@ -3,7 +3,7 @@
 - [x] Criar um arquivo para LinkedQueue;
 - [x] Criar um arquivo para LinkedStack;
 - [ ] Criar arquivo de processamento XML;
-- [ ] Classe da matriz para a Segunda questão;
+- [x] Classe da matriz para a Segunda questão;
 - [ ] Criar arquivo main. 
 
 Primeiro problema: validação de arquivo XML
