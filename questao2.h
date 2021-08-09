@@ -3,8 +3,6 @@
 
 #include <cstdint>
 #include <stdexcept>
-#include <utility>
-#include "LinkedQueue.h"
 
 namespace structures{
 
