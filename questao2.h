@@ -15,6 +15,8 @@ class Matriz {
     Matriz(int linhas, int colunas);
 	T get_item_pos(int linha, int coluna);
 	void set_item_pos(int linha, int coluna, T& dado );
+    int get_linha();
+    int get_coluna();
     ~Matriz();
 
  private:
@@ -45,11 +47,19 @@ T structures::Matriz::get_item_pos(int linha, int coluna) {
     return conteudos[linha][coluna];
 }
 
-void structures::Matrix::set_item_pos(int linha, int coluna, T& dado) {
+void structures::Matriz::set_item_pos(int linha, int coluna, T& dado) {
     if (linha > linhas_ || coluna > colunas_) {
         throw std::out_of_range("Posição inválida");
     }
     conteudos[linha][coluna] = dado;
+}
+
+int structures::Matriz::get_linha(){
+    return linhas_;
+}
+
+int structures::Matriz::get_coluna(){
+    return colunas_;
 }
 
 structures::Matriz::~Matriz() {
