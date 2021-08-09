@@ -1,6 +1,6 @@
 # INE-5408
 
-- [ ] Criar um arquivo para LinkedQueue;
+- [ ] Criar um arquivo para LinkedQueue e LinkedStack;
 - [ ] Criar arquivo de processamento XML;
 - [ ] Classe da matriz para a Segunda questão;
 - [ ] Criar arquivo main. 
