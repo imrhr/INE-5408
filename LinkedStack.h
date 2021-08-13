@@ -91,7 +91,7 @@ template<typename T>
 void structures::LinkedStack<T>::push(const T& data) {
     Node *new_value = new Node(data, top_);
     if (new_value == nullptr) {
-        throw std::out_of_range("pilha cheia");
+        throw ("pilha cheia");
     }
     top_ = new_value;
     size_++;
@@ -100,7 +100,7 @@ void structures::LinkedStack<T>::push(const T& data) {
 template<typename T>
 T structures::LinkedStack<T>::pop() {
     if (empty()) {
-        throw std::out_of_range("pilha vazia");
+        throw ("pilha vazia");
     } else {
         Node *eliminate = top_;
         T info_back = eliminate->data();
@@ -114,7 +114,7 @@ T structures::LinkedStack<T>::pop() {
 template<typename T>
 T& structures::LinkedStack<T>::top() const {
     if (empty()) {
-        throw std::out_of_range("pilha vazia");
+        throw ("pilha vazia");
     } else {
         return top_->data();
     }

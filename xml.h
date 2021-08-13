@@ -30,21 +30,21 @@ bool processador_xml::xml::verificador() {
   structures::LinkedStack<std::string> xml_tamanho;
   
   std::size_t posicao = 0;
-  while (posicao < xml.length()) {
+  while (posicao < xml_string.length()) {
     
-    std::size_t inicio_string = xml.find("<", posicao);
-    std::size_t fim_string = xml.find(">", char_begin);
+    std::size_t inicio_string = xml_string.find("<", posicao);
+    std::size_t fim_string = xml_string.find(">", inicio_string);
     
-    if (inicio_string == std::string::npos()) {
+    if (inicio_string == std::string::npos) {
       break;
     }
     
-    if (fim_string == std::string::npos()) {
+    if (fim_string == std::string::npos) {
       return false;
     }
     
     std::size_t tamanho = (fim_string - inicio_string) + 1;
-    std::string marcacao = xml.substr(inicio_string, tamanho);
+    std::string marcacao = xml_string.substr(inicio_string, tamanho);
     posicao = fim_string + 1;
     if (marcacao[1] != '/') {
 			xml_tamanho.push(marcacao.insert(1, "/"));
@@ -57,11 +57,11 @@ bool processador_xml::xml::verificador() {
     return xml_tamanho.empty();
 }
 
-std::string processador_xml::XML::valor(const std::string& inicio,
+std::string processador_xml::xml::valor(const std::string& inicio,
                                          const std::string& fim,
                                          std::size_t& posicao) {
-    std::size_t posicao_inicial = xml.find(inicio, posicao);
-    std::size_t posicao_final = xml.find(fim, posicao_inicial);
+    std::size_t posicao_inicial = xml_string.find(inicio, posicao);
+    std::size_t posicao_final = xml_string.find(fim, posicao_inicial);
     
     if (posicao_inicial == std::string::npos ||
         posicao_final == std::string::npos) {
@@ -71,6 +71,6 @@ std::string processador_xml::XML::valor(const std::string& inicio,
         posicao = posicao_final + fim.length();
         posicao_inicial += inicio.length();
         std::size_t tamanho = posicao_final - posicao_inicial;
-        return xml.substr(posicao_inicial, tamanho);
+        return xml_string.substr(posicao_inicial, tamanho);
     }
 }
