@@ -3,22 +3,19 @@
 #include <string>
 #include <cctype>
 
+#include "xml.h"
+#include "questao2.h"
+
 int main() {
 
     char xmlfilename[100];
 
     std::cin >> xmlfilename;  // entrada
-    
-    
-     
     std::ifstream file(xmlfilename);
-
-    std::string xml_string;
-    std::string line;
+    std::string xmls;
+    std::string linha;
     if (file.is_open()) {
-        while (getline(file, line)) {
-            xml_string += line;
-        }
+        do{ xmls += linha;}while (getline(file, linha));
         file.close();
     } else {
         std::cout << "error\n";
