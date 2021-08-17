@@ -27,7 +27,8 @@ class Matriz {
 
 #endif  // MATRIZ_QUESTAO2
 
-structures::Matriz::Matriz(int linhas, int colunas) {
+template<typename T>
+structures::Matriz<T>::Matriz(int linhas, int colunas) {
     linhas_ = linhas; colunas_ = colunas;
     conteudos = new T[linhas_];
     for (int l = 0; l < linhas_; l++) {
@@ -38,30 +39,35 @@ structures::Matriz::Matriz(int linhas, int colunas) {
     }
 }
 
-T structures::Matriz::get_item_pos(int linha, int coluna) {
+template<typename T>
+T structures::Matriz<T>::get_item_pos(int linha, int coluna) {
     if (linha > linhas_ || coluna > colunas_) {
         throw std::out_of_range("Posição inválida");
     }
     return conteudos[linha][coluna];
 }
 
-void structures::Matriz::set_item_pos(int linha, int coluna, T& dado) {
+template<typename T>
+void structures::Matriz<T>::set_item_pos(int linha, int coluna, T& dado) {
     if (linha > linhas_ || coluna > colunas_) {
         throw std::out_of_range("Posição inválida");
     }
     conteudos[linha][coluna] = dado;
 }
 
-int structures::Matriz::get_linha(){
+template<typename T>
+int structures::Matriz<T>::get_linha(){
     return linhas_;
 }
 
-int structures::Matriz::get_coluna(){
+template<typename T>
+int structures::Matriz<T>::get_coluna(){
     return colunas_;
 }
 
-structures::Matriz::~Matriz() {
-    for (int l = 0; l < linhas_; i++) {
+template<typename T>
+structures::Matriz<T>::~Matriz() {
+    for (int l = 0; l < linhas_; l++) {
         delete [] conteudos[l];
     }
     delete [] conteudos;
