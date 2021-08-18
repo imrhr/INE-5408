@@ -24,11 +24,11 @@ int main() {
     if( outxml.verificador() ){
         std::size_t pos = 0;
         while (pos < xmls.length()) {
+            
+            const std::string codigoimagem = outxml.valor("<img>", "</img>", pos);
             if (pos == -1) {
                 break;
             }
-            const std::string codigoimagem = outxml.valor("<img>", "</img>", pos);
-            
             structures::Xml novaimagem = structures::Xml(codigoimagem);
             std::size_t nada = 0;
             std::string nome = novaimagem.valor("<name>", "</name>", nada);
@@ -69,24 +69,38 @@ int main() {
                             int x = p.first;
                             int y = p.second;
                             
-                            if (x - 1 >= 0 && !R.get_item_pos(x-1, y) && imagem.get_item_pos(x-1,y)) {
-                                R.set_item_pos(x-1, y, label);
-                                fila.enqueue({x-1, y});
+                            if (x - 1 >= 0 && !R.get_item_pos(x-1, y)) {
+                                if (imagem.get_item_pos(x-1,y)){
+                                    R.set_item_pos(x-1, y, label);
+                                    fila.enqueue({x-1, y});
+                                }
                             }
                             
-                            if (x + 1 < imagem.get_linha() && !R.get_item_pos(x+1, y) && imagem.get_item_pos(x+1, y)) {
-                                R.set_item_pos(x+1, y, label);
-                                fila.enqueue({x+1, y});
+                            if (x + 1 < imagem.get_linha()) {
+                                if (!R.get_item_pos(x+1, y) ){
+                                    if(imagem.get_item_pos(x+1, y)){  
+                                        R.set_item_pos(x+1, y, label);
+                                        fila.enqueue({x+1, y});
+                                    }
+                                }
                             }
                             
-                            if (y - 1 >= 0 && !R.get_item_pos(x, y-1) && imagem.get_item_pos(x, y-1)) {
-                                R.set_item_pos(x, y-1, label);
-                                fila.enqueue({x, y-1});
+                            if (y - 1 >= 0 && !R.get_item_pos(x, y-1)) {
+                                if (imagem.get_item_pos(x, y-1)){
+                                    R.set_item_pos(x, y-1, label);
+                                    fila.enqueue({x, y-1});
+                                }
+                                
                             }
                             
-                            if (y + 1 < imagem.get_coluna() && !R.get_item_pos(x, y+1) && imagem.get_item_pos(x, y+1)) {
-                                R.set_item_pos(x, y+1, label);
-                                fila.enqueue({x, y+1});
+                            if (y + 1 < imagem.get_coluna()) {
+                                if (!R.get_item_pos(x, y+1) ){
+                                    if (imagem.get_item_pos(x, y+1)){
+                                        R.set_item_pos(x, y+1, label);
+                                        fila.enqueue({x, y+1});
+                                    }
+                                }
+                                
                             }
                         }
                         label++;
