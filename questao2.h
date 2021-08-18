@@ -11,6 +11,7 @@ class Matriz {
  public:
 
     Matriz(int linhas, int colunas);
+    void set_toda_matriz(const std::string& dados);
 	T get_item_pos(int linha, int coluna);
 	void set_item_pos(int linha, int coluna, T dado );
     int get_linha();
@@ -36,6 +37,21 @@ structures::Matriz<T>::Matriz(int linhas, int colunas) {
         for (int c = 0; c < colunas_; c++) {
             conteudos[l][c] = 0;
         }
+    }
+}
+
+template<typename T>
+void structures::Matriz<T>::set_toda_matriz(const std::string& dados){
+
+    int l = 0;
+    int c = 0;
+    for (auto inicio = dados.begin(); inicio != dados.end(); ++inicio) {
+        const auto& ponto= *inicio;
+        set_item_pos(l, c, int(ponto - '0'));
+        c++; 
+        if (c >= colunas_) {c = 0;l++;}
+        if (l >= linhas_ && c >= colunas_ ) {break;}
+                
     }
 }
 

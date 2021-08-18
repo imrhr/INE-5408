@@ -13,49 +13,41 @@ int main() {
 
     std::cin >> xmlfilename;  // entrada
     std::ifstream file(xmlfilename); std::string xmls; std::string linha;
+
     if (file.is_open()) {
         do { xmls += linha; } while (getline(file, linha));
         file.close();
-    } else {
+    } else { std::cout << "error\n"; return -1;}
+
+    structures::Xml outxml = structures::Xml(xmls);
+
+    if(!outxml.verificador() ){
         std::cout << "error\n";
         return -1;
-    }
-    structures::Xml outxml = structures::Xml(xmls);
-    if( outxml.verificador() ){
+    } else {
         std::size_t pos = 0;
-        while (pos < xmls.length()) {
-            
+        do {
             const std::string codigoimagem = outxml.valor("<img>", "</img>", pos);
-            if (pos == -1) {
-                break;
-            }
+            pos = outxml.get_posicao();
+            if (pos == -1) {break;}
+
             structures::Xml novaimagem = structures::Xml(codigoimagem);
             std::size_t nada = 0;
+
             std::string nome = novaimagem.valor("<name>", "</name>", nada);
             const int altura = std::stoi(novaimagem.valor("<height>", "</height>",  nada));
             const int largura = std::stoi(novaimagem.valor("<width>", "</width>",  nada));
-            if (!(altura > 0 && largura > 0)) {
-                std::cout << "error\n";
-                return -3;
-            }
-
             const std::string dados = novaimagem.valor("<data>", "</data>",  nada);
-            structures::Matriz<int> imagem = structures::Matriz<int>(altura, largura);
-            int i = 0;
-            int j = 0;
-            for (const char& d : dados) {
-                
-                imagem.set_item_pos(i, j, int(d - '0'));
 
-                if (++j >= largura) {
-                    j = 0;
-                    if (++i >= altura) {
-                        break;
-                    }
-                }
-            }
-            using pixel = std::pair<int, int>;
-            structures::LinkedQueue<pixel> fila;
+            if (!(altura > 0 && largura > 0)) {
+                std::cout << "error\n";return -1;
+            } else {
+
+
+            structures::Matriz<int> imagem = structures::Matriz<int>(altura, largura);
+            imagem.set_toda_matriz(dados);
+
+            using pixel = std::pair<int, int>; structures::LinkedQueue<pixel> fila;
             structures::Matriz<int> R = structures::Matriz<int>(imagem.get_linha(), imagem.get_coluna());
             int label = 1;
 
@@ -109,12 +101,8 @@ int main() {
             }
             
             std::cout << nome << " " << label-1 << "\n";  // esta linha deve ser removida
-        }
-
-
-    } else {
-        std::cout << "error\n";
-        return -4;
+            }
+        } while (pos < xmls.length());
     }
 
     
