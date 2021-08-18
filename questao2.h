@@ -12,7 +12,7 @@ class Matriz {
 
     Matriz(int linhas, int colunas);
 	T get_item_pos(int linha, int coluna);
-	void set_item_pos(int linha, int coluna, T& dado );
+	void set_item_pos(int linha, int coluna, T dado );
     int get_linha();
     int get_coluna();
     ~Matriz();
@@ -20,7 +20,7 @@ class Matriz {
  private:
     int linhas_;
     int colunas_;
-    T* conteudos;
+    T** conteudos;
 };
 
 }  // namespace structures
@@ -30,7 +30,7 @@ class Matriz {
 template<typename T>
 structures::Matriz<T>::Matriz(int linhas, int colunas) {
     linhas_ = linhas; colunas_ = colunas;
-    conteudos = new T[linhas_];
+    conteudos = new T*[linhas_];
     for (int l = 0; l < linhas_; l++) {
         conteudos[l] = new T[colunas_];
         for (int c = 0; c < colunas_; c++) {
@@ -48,7 +48,7 @@ T structures::Matriz<T>::get_item_pos(int linha, int coluna) {
 }
 
 template<typename T>
-void structures::Matriz<T>::set_item_pos(int linha, int coluna, T& dado) {
+void structures::Matriz<T>::set_item_pos(int linha, int coluna, T dado) {
     if (linha > linhas_ || coluna > colunas_) {
         throw std::out_of_range("Posição inválida");
     }
