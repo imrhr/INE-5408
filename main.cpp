@@ -10,6 +10,18 @@
 int main() {
 
     char xmlfilename[100];
+    const std::string imgb= "<img>";
+    const std::string imge= "</img>";
+    const std::string nameb= "<name>";
+    const std::string namee= "</name>";
+    const std::string he= "</height>";
+    const std::string hb= "<height>";
+    const std::string wb= "<width>";
+    const std::string we= "</width>";
+    const std::string datab= "<data>";
+    const std::string datae= "</data>";
+    std::size_t nada = 0;
+    std::size_t pos = 0;
 
     std::cin >> xmlfilename;  // entrada
     std::ifstream file(xmlfilename); std::string xmls; std::string linha;
@@ -25,19 +37,18 @@ int main() {
         std::cout << "error\n";
         return -1;
     } else {
-        std::size_t pos = 0;
+        
         do {
-            const std::string codigoimagem = outxml.valor("<img>", "</img>", pos);
+            const std::string codigoimagem = outxml.valor(imgb, imge, pos);
             pos = outxml.get_posicao();
             if (pos == -1) {break;}
 
             structures::Xml novaimagem = structures::Xml(codigoimagem);
-            std::size_t nada = 0;
 
-            std::string nome = novaimagem.valor("<name>", "</name>", nada);
-            const int altura = std::stoi(novaimagem.valor("<height>", "</height>",  nada));
-            const int largura = std::stoi(novaimagem.valor("<width>", "</width>",  nada));
-            const std::string dados = novaimagem.valor("<data>", "</data>",  nada);
+            std::string nome = novaimagem.valor(nameb, namee, nada);
+            const int altura = std::stoi(novaimagem.valor(hb, he,  nada));
+            const int largura = std::stoi(novaimagem.valor(wb, we,  nada));
+            const std::string dados = novaimagem.valor(datab, datae,  nada);
 
             if (!(altura > 0 && largura > 0)) {
                 std::cout << "error\n";return -1;
@@ -49,12 +60,12 @@ int main() {
 
             using pixel = std::pair<int, int>; structures::LinkedQueue<pixel> fila;
             structures::Matriz<int> R = structures::Matriz<int>(imagem.get_linha(), imagem.get_coluna());
-            int label = 1;
+            int rotulo = 1;
 
             for (int l = 0; l < imagem.get_linha(); l++) {
                 for (int c = 0; c < imagem.get_coluna(); c++) {
                     if (!R.get_item_pos(l, c) && imagem.get_item_pos(l, c)) {
-                        R.set_item_pos(l, c, label);
+                        R.set_item_pos(l, c, rotulo);
                         fila.enqueue({l, c});
                         while (!fila.empty()) {
                             const pixel p = fila.dequeue();
@@ -63,7 +74,7 @@ int main() {
                             
                             if (x - 1 >= 0 && !R.get_item_pos(x-1, y)) {
                                 if (imagem.get_item_pos(x-1,y)){
-                                    R.set_item_pos(x-1, y, label);
+                                    R.set_item_pos(x-1, y, rotulo);
                                     fila.enqueue({x-1, y});
                                 }
                             }
@@ -71,7 +82,7 @@ int main() {
                             if (x + 1 < imagem.get_linha()) {
                                 if (!R.get_item_pos(x+1, y) ){
                                     if(imagem.get_item_pos(x+1, y)){  
-                                        R.set_item_pos(x+1, y, label);
+                                        R.set_item_pos(x+1, y, rotulo);
                                         fila.enqueue({x+1, y});
                                     }
                                 }
@@ -79,7 +90,7 @@ int main() {
                             
                             if (y - 1 >= 0 && !R.get_item_pos(x, y-1)) {
                                 if (imagem.get_item_pos(x, y-1)){
-                                    R.set_item_pos(x, y-1, label);
+                                    R.set_item_pos(x, y-1, rotulo);
                                     fila.enqueue({x, y-1});
                                 }
                                 
@@ -88,21 +99,22 @@ int main() {
                             if (y + 1 < imagem.get_coluna()) {
                                 if (!R.get_item_pos(x, y+1) ){
                                     if (imagem.get_item_pos(x, y+1)){
-                                        R.set_item_pos(x, y+1, label);
+                                        R.set_item_pos(x, y+1, rotulo);
                                         fila.enqueue({x, y+1});
                                     }
                                 }
                                 
                             }
                         }
-                        label++;
+                        rotulo++;
                     }
                 }
             }
             
-            std::cout << nome << " " << label-1 << "\n";  // esta linha deve ser removida
+            std::cout << nome << " " << rotulo-1 << "\n";  // esta linha deve ser removida
             }
         } while (pos < xmls.length());
+        
     }
 
     

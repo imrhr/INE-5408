@@ -36,20 +36,19 @@ bool structures::Xml::verificador() {
     std::size_t inicio = valor_entrada.find("<", posicao);
     std::size_t fim = valor_entrada.find(">", inicio);
     
-    if (inicio== std::string::npos) { break;} 
-    else if (fim == std::string::npos) { return false;}
+    if (inicio == -1) { break;} 
+    else if (fim == -1) { return false;}
     
-    std::size_t tamanho = (fim + 1) - (inicio);
-    std::string marcacao = valor_entrada.substr(inicio, tamanho);
+    std::string marcacao = valor_entrada.substr(inicio, (fim + 1) - (inicio));
     posicao = fim + 1;
     tamanho_entrada = valor_entrada.length();
     if (marcacao[1] != '/') {
 			xml_tamanho.push(marcacao.insert(1, "/"));
 		} else if (xml_tamanho.top() == marcacao) {
             xml_tamanho.pop();
-        } else {
-            return false;
-        }
+    } else {
+        return false;
+      }
     
     } while (posicao < tamanho_entrada);
     return xml_tamanho.empty();
