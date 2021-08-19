@@ -4,7 +4,7 @@
 - [x] Criar um arquivo para LinkedStack;
 - [x] Criar arquivo de processamento XML;
 - [x] Classe da matriz para a Segunda questão;
-- [ ] Criar arquivo main. 
+- [x] Criar arquivo main. 
 
 Primeiro problema: validação de arquivo XML
 
